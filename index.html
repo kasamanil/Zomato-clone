@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zomato </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        /* Header */
+        header {
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: #ff4343;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 8px;
+        }
+        
+        .location-selector {
+            display: flex;
+            align-items: center;
+            margin-left: 30px;
+        }
+        
+        .location-selector i {
+            color: #ff4343;
+            margin-right: 8px;
+        }
+        
+        .location-selector select {
+            border: none;
+            background: transparent;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        .nav-links {
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-links a {
+            margin-left: 20px;
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: #ff4343;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
+                        url('https://b.zmtcdn.com/web_assets/81f3ff974d82520780078ba1cfbd453a1583259680.png') center/cover;
+            height: 70vh;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            color: white;
+        }
+        
+        .hero-content {
+            width: 100%;
+            text-align: center;
+        }
+        
+        .hero-content h1 {
+            font-size: 42px;
+            margin-bottom: 20px;
+        }
+        
+        .search-container {
+            background: white;
+            border-radius: 8px;
+            max-width: 800px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+        
+        .search-tabs {
+            display: flex;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .search-tab {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .search-tab.active {
+            color: #ff4343;
+            border-bottom: 2px solid #ff4343;
+        }
+        
+        .search-tab i {
+            margin-right: 8px;
+        }
+        
+        .search-input {
+            padding: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .search-input i {
+            color: #777;
+            margin-right: 10px;
+        }
+        
+        .search-input input {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-size: 16px;
+        }
+        
+        .search-input button {
+            background: #ff4343;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin-left: 15px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .search-input button:hover {
+            background: #e63939;
+        }
+        
+        /* Quick Filters */
+        .quick-filters {
+            padding: 40px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 28px;
+            color: #333;
+        }
+        
+        .filters-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 25px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .filter-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 80px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .filter-icon {
+            width: 60px;
+            height: 60px;
+            background: #f8f8f8;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+        
+        .filter-icon i {
+            font-size: 24px;
+            color: #ff4343;
+        }
+        
+        .filter-card span {
+            font-size: 14px;
+            text-align: center;
+            font-weight: 500;
+        }
+        
+        /* Collections */
+        .collections {
+            padding: 40px 0;
+            background: #f8f8f8;
+        }
+        
+        .collections-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .collection-card {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            height: 250px;
+            cursor: pointer;
+        }
+        
+        .collection-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.3s ease;
+        }
+        
+        .collection-card:hover img {
+            transform: scale(1.05);
+        }
+        
+        .collection-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+            color: white;
+        }
+        
+        .collection-overlay h3 {
+            margin-bottom: 5px;
+        }
+        
+        /* Restaurants */
+        .restaurants {
+            padding: 40px 0;
+        }
+        
+        .restaurant-card {
+            border: 1px solid #eee;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .restaurant-card:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .restaurant-header {
+            position: relative;
+        }
+        
+        .restaurant-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: #ff4343;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        
+        .restaurant-img {
+            height: 200px;
+            width: fit-content;
+            overflow: hidden;
+        }   
+        
+        .restaurant-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .restaurant-info {
+            padding: 15px;
+        }
+        
+        .restaurant-name {
+            font-size: 18px;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        
+        .restaurant-cuisine {
+            color: #777;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        
+        .restaurant-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .rating {
+            background: #48c479;
+            color: white;
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .price {
+            color: #777;
+            font-size: 14px;
+        }
+        
+        /* Footer */
+        footer {
+            background: #2d2d32;
+            color: white;
+            padding: 40px 0 20px;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-column h3 {
+            font-size: 16px;
+            margin-bottom: 15px;
+            color: #aaa;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-column ul li a {
+            color: #ddd;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-column ul li a:hover {
+            color: #ff4343;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            color: white;
+            font-size: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            color: #ff4343;
+        }
+        
+        .copyright {
+            border-top: 1px solid #444;
+            padding-top: 20px;
+            text-align: center;
+            color: #aaa;
+            font-size: 14px;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+            }
+            
+            .logo {
+                margin-bottom: 15px;
+            }
+            
+            .location-selector {
+                margin-left: 0;
+                margin-bottom: 15px;
+            }
+            
+            .nav-links {
+                margin-top: 15px;
+            }
+            
+            .hero-content h1 {
+                font-size: 32px;
+            }
+            
+            .search-tabs {
+                flex-direction: column;
+            }
+            
+            .search-tab {
+                border-bottom: 1px solid #eee;
+            }
+            
+            .search-input {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .search-input button {
+                margin-left: 0;
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-utensils"></i>
+                    <span>Zomato</span>
+                </div>
+                <div class="location-selector">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <select>
+                        <option>Bangalore</option>
+                        <option>Delhi</option>
+                        <option>Mumbai</option>
+                        <option>Hyderabad</option>
+                    </select>
+                </div>
+                <div class="nav-links">
+                    <a href="#"><i class="fas fa-search"></i> Search</a>
+                    <a href="#"><i class="fas fa-heart"></i> Favorites</a>
+                    <a href="#"><i class="fas fa-user"></i> Login</a>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Discover the best food & drinks in Hyderabad</h1>
+                <div class="search-container">
+                    <div class="search-tabs">
+                        <div class="search-tab active">
+                            <i class="fas fa-motorcycle"></i>
+                            Delivery
+                        </div>
+                        <div class="search-tab">
+                            <i class="fas fa-utensils"></i>
+                            Dining Out
+                        </div>
+                        <div class="search-tab">
+                            <i class="fas fa-cocktail"></i>
+                            Nightlife
+                        </div>
+                    </div>
+                    <div class="search-input">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <input type="text" placeholder="Enter your delivery location">
+                        <button>Find Food</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Quick Filters -->
+    <section class="quick-filters">
+        <div class="container">
+            <h2 class="section-title">Quick Filters</h2>
+            <div class="filters-container">
+                <div class="filter-card">
+                    <div class="filter-icon">
+                        <i class="fas fa-motorcycle"></i>
+                    </div>
+                    <span>Delivery</span>
+                </div>
+                <div class="filter-card">
+                    <div class="filter-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <span>Fast Delivery</span>
+                </div>
+                <div class="filter-card">
+                    <div class="filter-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <span>Rating 4.0+</span>
+                </div>
+                <div class="filter-card">
+                    <div class="filter-icon">
+                        <i class="fas fa-rupee-sign"></i>
+                    </div>
+                    <span>Affordable</span>
+                </div>
+                <div class="filter-card">
+                    <div class="filter-icon">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <span>Pure Veg</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Collections -->
+    <section class="collections">
+        <div class="container">
+            <h2 class="section-title">Collections</h2>
+            <p style="text-align: center; margin-bottom: 20px;">Explore curated lists of top restaurants, cafes, pubs, and bars in Bangalore</p>
+            <div class="collections-container">
+                <div class="collection-card">
+                    <img src="https://b.zmtcdn.com/data/collections/7e296d5b75ca7b0f88e451b49e41ba99_1618208591.jpg" alt="Collection">
+                    <div class="collection-overlay">
+                        <h3>Best of Bangalore</h3>
+                        <p>120 Places</p>
+                    </div>
+                </div>
+                <div class="collection-card">
+                    <img src="https://b.zmtcdn.com/data/collections/b22194cb38ed18a5200b387ad8f243f0_1582015789.jpg" alt="Collection">
+                    <div class="collection-overlay">
+                        <h3>Trending This Week</h3>
+                        <p>30 Places</p>
+                    </div>
+                </div>
+                <div class="collection-card">
+                    <img src="https://www.designpataki.com/wp-content/uploads/2024/05/3-New-Restaurants-in-Hyderabad-An-Exploration-of-Telugu-Cuisine-An-Ode-to-Natural-Architecture-And-A-Bohemian-Oasis-Design-Pataki-feature-image.jpg" alt="Collection">
+                    <div class="collection-overlay">
+                        <h3>Newly Opened</h3>
+                        <p>15 Places</p>
+                    </div>
+                </div>
+                <div class="collection-card">
+                    <img src="https://coworkingers.com/wp-content/uploads/2023/04/The-Roastery-Coffee-House.jpg" alt="Collection">
+                    <div class="collection-overlay">
+                        <h3>Work Friendly Places</h3>
+                        <p>22 Places</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Restaurants -->
+    <section class="restaurants">
+        <div class="container">
+            <h2 class="section-title">Popular Restaurants Near You</h2>
+            <div class="restaurants-container">
+                <div class="restaurant-card">
+                    <div class="restaurant-header">
+                        <span class="restaurant-badge">Promoted</span>
+                        <div class="restaurant-img">
+                            <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2c/2c/82/81/pirates-ship.jpg?w=900&h=500&s=1" alt="Restaurant">
+                        </div>
+                    </div>
+                    <div class="restaurant-info">
+                        <h3 class="restaurant-name">The Black Pearl</h3>
+                        <p class="restaurant-cuisine">North Indian, Chinese, Continental</p>
+                        <div class="restaurant-details">
+                            <span class="rating">4.1 ★</span>
+                            <span class="price">₹₹₹</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="restaurant-card">
+                    <div class="restaurant-header">
+                        <div class="restaurant-img">
+                            <img src="https://media.gettyimages.com/id/1496295116/photo/burger-king-restaurant-in-tokyo-japan.jpg?s=612x612&w=gi&k=20&c=3_ntUVrQMqgG6QQjyLee2FTfTJJTxAvNYGaSCJd1eL0=" alt="Restaurant">
+                        </div>
+                    </div>
+                    <div class="restaurant-info">
+                        <h3 class="restaurant-name">Burger King</h3>
+                        <p class="restaurant-cuisine">Burgers, American, Fast Food</p>
+                        <div class="restaurant-details">
+                            <span class="rating">4.3 ★</span>
+                            <span class="price">₹₹</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="restaurant-card">
+                    <div class="restaurant-header">
+                        <span class="restaurant-badge">Pure Veg</span>
+                        <div class="restaurant-img">
+                            <img src="https://i.ytimg.com/vi/zVTwT-6FiEw/maxresdefault.jpg" alt="Restaurant">
+                        </div>
+                    </div>
+                    <div class="restaurant-info">
+                        <h3 class="restaurant-name">Sattvam</h3>
+                        <p class="restaurant-cuisine">South Indian, North Indian, Chinese</p>
+                        <div class="restaurant-details">
+                            <span class="rating">4.5 ★</span>
+                            <span class="price">₹₹₹</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="restaurant-card">
+                    <div class="restaurant-header">
+                        <div class="restaurant-img">
+                            <img src="https://media.istockphoto.com/id/1482241677/photo/pizza-hut-restaurant-pizza-hut-is-offering-delivery-carry-out-and-curbside-pickup-pizza-and.jpg?s=612x612&w=0&k=20&c=XNQTDaw4f-2Ocbb_m0YRwQfXYGbjaC6mIh3P77TuR4U=" alt="Restaurant">
+                        </div>
+                    </div>
+                    <div class="restaurant-info">
+                        <h3 class="restaurant-name">Pizza Hut</h3>
+                        <p class="restaurant-cuisine">Pizza, Italian, Fast Food</p>
+                        <div class="restaurant-details">
+                            <span class="rating">4.0 ★</span>
+                            <span class="price">₹₹</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3>About Zomato</h3>
+                    <ul>
+                        <li><a href="#">Who We Are</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Work With Us</a></li>
+                        <li><a href="#">Investor Relations</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>For Restaurants</h3>
+                    <ul>
+                        <li><a href="#">Partner With Us</a></li>
+                        <li><a href="#">Apps For You</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Learn More</h3>
+                    <ul>
+                        <li><a href="#">Privacy</a></li>
+                        <li><a href="#">Security</a></li>
+                        <li><a href="#">Terms</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Social Links</h3>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>By continuing past this page, you agree to our Terms of Service, Cookie Policy, Privacy Policy and Content Policies. All trademarks are properties of their respective owners. © 2023 Zomato™ Ltd. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
